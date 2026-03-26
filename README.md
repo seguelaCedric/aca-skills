@@ -19,11 +19,18 @@ Skills for [ACA (Automated Client Acquisition)](https://app.aca.so) - AI-powered
 
 ## Available Skills
 
-### Content Creation
+### Content Production
 | Skill | Invoke | Description |
 |-------|--------|-------------|
+| Content Strategist | `/aca:content-strategist` | Plan daily content topics across platforms |
+| Trend Researcher | `/aca:trend-researcher` | Research trending AI/SaaS/agency topics |
 | LinkedIn Copywriter | `/aca:linkedin-copywriter` | Write high-engagement LinkedIn posts |
+| Twitter Copywriter | `/aca:twitter-copywriter` | Write punchy, viral tweets |
+| Facebook Copywriter | `/aca:facebook-copywriter` | Write long-form Facebook posts |
+| Instagram Copywriter | `/aca:instagram-copywriter` | Write Instagram captions and carousel content |
 | Image Producer | `/aca:image-producer` | Generate lead magnet images for social posts |
+| Content QA | `/aca:content-qa` | Review posts against quality rules before publishing |
+| Social Publisher | `/aca:social-publisher` | Schedule and publish posts via GHL |
 
 ### Video Production
 | Skill | Invoke | Description |
