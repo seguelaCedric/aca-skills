@@ -53,6 +53,16 @@ Skills for [ACA (Automated Client Acquisition)](https://app.aca.so) - AI-powered
 - **remotion-best-practices** - Remotion API knowledge for video creation
 - **motion-graphics-library** - Reusable motion graphic components
 
+## Building Custom Skills
+
+Want to build your own skills on top of ACA? The **[Developer Guide](docs/DEVELOPER_GUIDE.md)** covers everything:
+
+- All 100+ MCP tools with parameters and return values
+- 20+ MCP resources for reading org data
+- Video editor runtime constraints and available globals
+- Skill file structure and best practices
+- How to bundle and publish as a plugin
+
 ## MCP Tools Used
 
 The video production skills use these ACA MCP tools:
