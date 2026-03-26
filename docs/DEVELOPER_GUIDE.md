@@ -30,6 +30,78 @@ Think of ACA MCP as a comprehensive API for:
 
 Your skill orchestrates these tools to automate workflows that would otherwise require clicking through the ACA dashboard.
 
+### Multi-Tenancy & Organization Scoping
+
+ACA is a multi-tenant platform. Every piece of data (contacts, campaigns, content, video projects, etc.) belongs to an **organization**. This is critical to understand when building skills.
+
+#### How It Works
+
+1. **Automatic scoping.** When a user connects via MCP, they're authenticated and associated with a default organization. Every tool call is automatically scoped to that org -- you don't need to pass `organization_id` manually.
+
+2. **Users can belong to multiple orgs.** Agency users manage multiple client workspaces. A single user might have access to "Acme Corp", "Widget Inc", and their own agency org.
+
+3. **Switching orgs changes ALL subsequent tool calls.** After calling `switch_organization`, every tool operates on the new org's data until you switch again.
+
+#### Organization Tools
+
+| Tool | What It Does |
+|------|-------------|
+| `list_accessible_organizations` | List all orgs the user can access. Returns org IDs, names, and roles. |
+| `switch_organization` | Switch context to a different org. All subsequent calls use the new org. |
+
+#### Patterns for Skills
+
+**Single-org skill (most common):**
+Your skill doesn't need to do anything special. The MCP server handles scoping automatically. When you call `list_contacts`, you get that org's contacts. When you call `push_remotion_code`, it creates the project in that org.
+
+```markdown
+## Step 1
+Use `list_contacts` to get recent contacts.
+# -> automatically returns contacts for the user's current org
+```
+
+**Cross-org skill (agency/reporting):**
+If your skill needs to operate across multiple organizations (e.g. an agency dashboard, cross-client report), you must explicitly switch:
+
+```markdown
+## Step 1: Get all client orgs
+Use `list_accessible_organizations` to get the user's orgs.
+
+## Step 2: Loop through each org
+For each organization:
+1. Call `switch_organization` with the org ID
+2. Call `list_campaigns` to get that org's campaign data
+3. Collect the metrics
+
+## Step 3: Switch back
+Call `switch_organization` with the user's primary org ID to restore context.
+
+**Important:** Always switch back to the original org when done.
+```
+
+**White-label awareness:**
+ACA supports white-label deployments for agencies. Each org can have its own branding, domain, and feature set. Your skill should:
+- Never hardcode org-specific values (IDs, domains, storage paths)
+- Use the data returned by MCP tools, which is already scoped correctly
+- Avoid assumptions about what features are enabled -- check the data
+
+#### Data Isolation Rules
+
+| Rule | Detail |
+|------|--------|
+| **RLS enforced** | Row Level Security ensures queries only return rows belonging to the current org. You cannot accidentally read another org's data. |
+| **Storage is org-scoped** | Files in Supabase Storage are organized under org-specific paths. URLs returned by tools are already correctly scoped. |
+| **API keys are per-org** | Each org stores its own encrypted API keys (ElevenLabs, Replicate, etc.). The edge functions decrypt and use the correct keys based on org context. |
+| **Campaigns are isolated** | A campaign in Org A cannot reference contacts from Org B. |
+| **Skills don't need to enforce this** | The platform handles isolation at the database and API level. Your skill just calls tools normally. |
+
+#### Common Mistakes
+
+1. **Hardcoding org IDs.** Never put a specific org ID in a skill file. The MCP server provides the right context automatically.
+2. **Forgetting to switch back.** If your skill switches orgs, always restore the original context when done.
+3. **Assuming single-org.** Agency users work across many orgs. If your skill shows a list of something, mention which org it's from.
+4. **Caching across orgs.** If your skill remembers data from a previous step, make sure it's still valid after an org switch.
+
 ---
 
 ## 2. Available MCP Tools (Complete Reference)
