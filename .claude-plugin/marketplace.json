@@ -1,0 +1,21 @@
+{
+  "name": "claude-aca",
+  "owner": {
+    "name": "OpenClaw",
+    "email": "hello@claude.io"
+  },
+  "metadata": {
+    "description": "Skills for ACA (Automated Client Acquisition) - AI content, video production, and multi-channel outreach",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "aca",
+      "source": "./",
+      "description": "ACA skills for content creation, video production, and SDR outreach",
+      "version": "1.0.0",
+      "keywords": ["aca", "video", "remotion", "linkedin", "sdr", "outreach"],
+      "category": "productivity"
+    }
+  ]
+}

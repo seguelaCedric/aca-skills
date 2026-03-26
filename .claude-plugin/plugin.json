@@ -1,0 +1,14 @@
+{
+  "name": "aca",
+  "version": "1.0.0",
+  "description": "ACA (Automated Client Acquisition) skills for AI-powered content creation, video production, and multi-channel outreach. Requires ACA MCP connection.",
+  "author": {
+    "name": "OpenClaw",
+    "url": "https://github.com/claude"
+  },
+  "repository": "https://github.com/claude/aca-skills",
+  "license": "MIT",
+  "keywords": ["aca", "video", "remotion", "linkedin", "sdr", "outreach", "content", "mcp"],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
